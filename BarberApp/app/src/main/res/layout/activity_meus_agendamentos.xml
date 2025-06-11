@@ -11,7 +11,9 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:title="Meus Agendamentos"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"
+        android:backgroundTint="@color/blue_dark"
+        />
 
     <TextView
         android:layout_width="wrap_content"

@@ -20,15 +20,31 @@
             android:scaleType="centerCrop"
             android:background="#e0e0e0"/>
 
-        <TextView
-            android:id="@+id/tvNomeServico"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="12dp"
-            android:text="Nome do Serviço"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:gravity="bottom">
+
+            <TextView
+                android:id="@+id/tvNomeServico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome do Serviço"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDescricaoServico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Descrição"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvPrecoServico"
@@ -36,8 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginBottom="12dp"
+            android:layout_marginTop="4dp"
             android:text="R$ 00,00"
-            android:textColor="@color/purple_700"
+            android:textColor="?attr/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>

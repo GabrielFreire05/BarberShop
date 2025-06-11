@@ -35,9 +35,12 @@ class AgendamentoActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+
         setSupportActionBar(binding.toolbarAgendamento)
 
+        // Configura o botão de voltar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         //Usa o horario atual
         binding.calendarView.minDate = System.currentTimeMillis()
 
@@ -46,7 +49,6 @@ class AgendamentoActivity : AppCompatActivity() {
         binding.tvNomeServicoAgendamento.text = "Agendar: $servicoNome"
 
         binding.rvHorarios.layoutManager = GridLayoutManager(this, 3)
-        setSupportActionBar(binding.toolbarAgendamento)
 
 
         val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
