@@ -26,7 +26,10 @@ class ServicosActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+
         setSupportActionBar(binding.toolbarServicos)
+        supportActionBar?.title = "Nossos Serviços"
+
         binding.rvServicos.layoutManager = LinearLayoutManager(this)
         fetchServicos()
     }

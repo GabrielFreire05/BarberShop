@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cadastro"
+        android:text="@string/cadastro"
         android:textSize="32sp"
         android:textStyle="bold"
         android:textColor="@color/purple_700"
@@ -19,7 +19,7 @@
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome Completo"
+        android:hint="@string/nome_completo"
         android:inputType="textPersonName"/>
 
     <EditText
@@ -27,14 +27,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Senha (mínimo 6 caracteres)"
+        android:hint="@string/senha_m_nimo_6_caracteres"
         android:layout_marginTop="8dp"
         android:inputType="textPassword"/>
 
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Cadastrar"/>
+        android:text="@string/cadastrar"/>
 
     <TextView
         android:id="@+id/tvGoToLogin"

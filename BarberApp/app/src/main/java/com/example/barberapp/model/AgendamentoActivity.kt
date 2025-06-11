@@ -37,13 +37,18 @@ class AgendamentoActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        setSupportActionBar(binding.toolbarAgendamento)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         servicoId = intent.getStringExtra(EXTRA_SERVICO_ID)
         servicoNome = intent.getStringExtra(EXTRA_SERVICO_NOME)
         binding.tvNomeServicoAgendamento.text = "Agendar: $servicoNome"
 
         binding.rvHorarios.layoutManager = GridLayoutManager(this, 3)
+        setSupportActionBar(binding.toolbarAgendamento)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         dataSelecionada = sdf.format(Date())
 

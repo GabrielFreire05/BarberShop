@@ -42,4 +42,12 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="_2_escolha_o_hor_rio">2. Escolha o horário</string>
+    <string name="_1_escolha_a_data">1. Escolha a data</string>
+    <string name="agendar_nome_do_servi_o">Agendar [Nome do Serviço]</string>
+    <string name="email">Email</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="cadastro">Cadastro</string>
+    <string name="senha_m_nimo_6_caracteres">Senha (mínimo 6 caracteres)</string>
+    <string name="cadastrar">Cadastrar</string>
 </resources>

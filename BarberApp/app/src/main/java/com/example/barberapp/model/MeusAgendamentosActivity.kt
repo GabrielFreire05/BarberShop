@@ -21,12 +21,16 @@ class MeusAgendamentosActivity : AppCompatActivity() {
         binding = ActivityMeusAgendamentosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        setSupportActionBar(binding.toolbarMeusAgendamentos)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
         binding.rvMeusAgendamentos.layoutManager = LinearLayoutManager(this)
         carregarMeusAgendamentos()
+
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
