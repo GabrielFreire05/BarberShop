@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
+import android.util.Log
 
 class AgendamentoActivity : AppCompatActivity() {
 
@@ -67,7 +68,13 @@ class AgendamentoActivity : AppCompatActivity() {
             .whereEqualTo("data", data)
             .get()
             .addOnSuccessListener { result ->
+                // LOG 1: Ver quantos agendamentos foram encontrados para a data
+                Log.d("BarberAppDebug", "Documentos encontrados para a data $data: ${result.size()}")
+
                 val horariosOcupados = result.documents.map { it.getString("horario") }
+
+                // LOG 2: Ver quais horários o app considera como "ocupados"
+                Log.d("BarberAppDebug", "Horários ocupados: $horariosOcupados")
 
                 todosOsHorarios.forEach { horario ->
                     if (horariosOcupados.contains(horario.hora)) {
@@ -75,11 +82,19 @@ class AgendamentoActivity : AppCompatActivity() {
                     }
                 }
 
+                // LOG 3: Ver o total de horários que serão enviados para a lista visual
+                Log.d("BarberAppDebug", "Total de horários para exibir: ${todosOsHorarios.size}")
+
                 binding.rvHorarios.adapter = HorarioAdapter(todosOsHorarios) { horarioClicado ->
                     confirmarAgendamento(horarioClicado)
                 }
+
+                // LOG 4: Confirmar que o adapter foi configurado
+                Log.d("BarberAppDebug", "Adapter configurado no RecyclerView.")
             }
-            .addOnFailureListener {
+            .addOnFailureListener { e ->
+                // LOG 5: Ver o erro exato que está causando a falha
+                Log.e("BarberAppDebug", "Falha ao executar a consulta de horários", e)
                 Toast.makeText(this, "Erro ao carregar horários.", Toast.LENGTH_SHORT).show()
             }
     }
