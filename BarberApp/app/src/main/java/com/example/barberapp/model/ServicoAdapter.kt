@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.barberapp.databinding.ItemServicoBinding
+import com.example.barberapp.model.AgendamentoActivity
 import com.example.barberapp.model.Servico
 
 class ServicoAdapter(private val servicos: List<Servico>) : RecyclerView.Adapter<ServicoAdapter.ServicoViewHolder>() {

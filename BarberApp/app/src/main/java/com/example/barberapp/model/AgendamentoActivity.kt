@@ -1,4 +1,4 @@
-package com.example.barberapp
+package com.example.barberapp.model
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.barberapp.HorarioAdapter
 import com.example.barberapp.databinding.ActivityAgendamentoBinding
-import com.example.barberapp.model.Agendamento
-import com.example.barberapp.model.Horario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -33,13 +32,14 @@ class AgendamentoActivity : AppCompatActivity() {
         binding = ActivityAgendamentoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         setSupportActionBar(binding.toolbarAgendamento)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //Usa o horario atual
+        binding.calendarView.minDate = System.currentTimeMillis()
 
         servicoId = intent.getStringExtra(EXTRA_SERVICO_ID)
         servicoNome = intent.getStringExtra(EXTRA_SERVICO_NOME)
@@ -48,7 +48,7 @@ class AgendamentoActivity : AppCompatActivity() {
         binding.rvHorarios.layoutManager = GridLayoutManager(this, 3)
         setSupportActionBar(binding.toolbarAgendamento)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         dataSelecionada = sdf.format(Date())
 
@@ -71,7 +71,6 @@ class AgendamentoActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun carregarHorariosDisponiveis(data: String) {
         val todosOsHorarios = listOf(
             "09:00", "10:00", "11:00",
@@ -83,21 +82,40 @@ class AgendamentoActivity : AppCompatActivity() {
             .whereEqualTo("data", data)
             .get()
             .addOnSuccessListener { result ->
-                Log.d("BarberAppDebug", "Documentos encontrados para a data $data: ${result.size()}")
                 val horariosOcupados = result.documents.map { it.getString("horario") }
-                Log.d("BarberAppDebug", "Horários ocupados: $horariosOcupados")
+
+                val fusoHorarioSP = TimeZone.getTimeZone("America/Sao_Paulo")
+                val calendarioHoje = Calendar.getInstance(fusoHorarioSP)
+
+                val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                sdf.timeZone = fusoHorarioSP
+                val dataDeHojeFormatada = sdf.format(calendarioHoje.time)
+
+                val isHoje = (data == dataDeHojeFormatada)
 
                 todosOsHorarios.forEach { horario ->
                     if (horariosOcupados.contains(horario.hora)) {
                         horario.isDisponivel = false
                     }
+
+                    if (isHoje) {
+                        try {
+                            val horaDoSlot = horario.hora.split(":")[0].toInt()
+                            val horaAtual = calendarioHoje.get(Calendar.HOUR_OF_DAY)
+
+                            // Se a hora do slot for menor OU IGUAL à hora atual, desabilita.
+                            if (horaDoSlot <= horaAtual) {
+                                horario.isDisponivel = false
+                            }
+                        } catch (e: Exception) {
+                            Log.e("BarberAppDebug", "Erro ao converter a hora do slot: ${horario.hora}", e)
+                        }
+                    }
                 }
 
-                Log.d("BarberAppDebug", "Total de horários para exibir: ${todosOsHorarios.size}")
                 binding.rvHorarios.adapter = HorarioAdapter(todosOsHorarios) { horarioClicado ->
                     confirmarAgendamento(horarioClicado)
                 }
-                Log.d("BarberAppDebug", "Adapter configurado no RecyclerView.")
             }
             .addOnFailureListener { e ->
                 Log.e("BarberAppDebug", "Falha ao executar a consulta de horários", e)

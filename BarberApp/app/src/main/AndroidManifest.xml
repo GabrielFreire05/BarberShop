@@ -34,7 +34,7 @@
         <activity android:name=".ServicosActivity" />
 
         <activity
-            android:name=".AgendamentoActivity"
+            android:name=".model.AgendamentoActivity"
             android:parentActivityName=".ServicosActivity" />
 
         <activity
