@@ -29,7 +29,11 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
+            val allowedDomains = listOf("@gmail.com", "@outlook.com", "@hotmail.com")
+            if (allowedDomains.none { email.endsWith(it) }) {
+                Toast.makeText(this, "Por favor, use um e-mail válido (Gmail, Outlook, Hotmail).", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -40,8 +44,14 @@ class RegisterActivity : AppCompatActivity() {
                             .build()
                         user?.updateProfile(profileUpdates)
 
-                        Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, ServicosActivity::class.java))
+                        user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
+                            if(verificationTask.isSuccessful) {
+                                Toast.makeText(this, "Cadastro realizado! Verifique seu e-mail.", Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+                        // Desloga o usuário e o envia para a tela de login para que ele verifique o e-mail antes de entrar
+                        auth.signOut()
                         finish()
                     } else {
                         Toast.makeText(this, "Falha no cadastro: ${task.exception?.message}", Toast.LENGTH_LONG).show()
